@@ -1,13 +1,16 @@
 import java.util.Arrays;
 
+import static java.util.Arrays.fill;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10000];
     private int position = -1;
 
     void clear() {
+        fill(storage, 0, position + 1,null);
         position = -1;
     }
 
@@ -28,7 +31,8 @@ public class ArrayStorage {
         for (int i = 0; i < position; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 System.arraycopy(storage, i + 1, storage, i, position - i + 1);
-                position--;
+                storage[position--] = null;
+                break;
             }
         }
     }
