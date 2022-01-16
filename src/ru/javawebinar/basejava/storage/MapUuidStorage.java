@@ -2,11 +2,11 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-// TODO implement
-// TODO create new MapStorage with search key not uuid
 public class MapUuidStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
@@ -16,41 +16,42 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume r, Object searchKey) {
+    protected void doUpdate(Resume r, Object uuid) {
+        map.put(String.valueOf(uuid), r);
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return false;
+    protected boolean isExist(Object uuid) {
+        return map.containsKey(String.valueOf(uuid));
     }
 
     @Override
-    protected void doSave(Resume r, Object searchKey) {
-
+    protected void doSave(Resume r, Object uuid) {
+        map.put(String.valueOf(uuid), r);
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return null;
+    protected Resume doGet(Object uuid) {
+        return map.get(String.valueOf(uuid));
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-
+    protected void doDelete(Object uuid) {
+        map.remove(String.valueOf(uuid));
     }
 
     @Override
     public void clear() {
-
+        map.clear();
     }
 
     @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    protected List<Resume> doAll() {
+        return new ArrayList<>(map.values());
     }
 
     @Override
     public int size() {
-        return 0;
+        return map.size();
     }
 }
