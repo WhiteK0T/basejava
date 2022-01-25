@@ -33,5 +33,21 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        printPathDeep(dir);
+    }
+
+    public static void printPathDeep(File dir) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println("File: " + file.getAbsolutePath());
+                }
+                if (file.isDirectory()) {
+                    System.out.println("Directory: " + file.getAbsolutePath());
+                    printPathDeep(file);
+                }
+            }
+        }
     }
 }
