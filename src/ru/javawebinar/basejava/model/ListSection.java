@@ -1,8 +1,6 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * gkislin
@@ -18,6 +16,16 @@ public class ListSection extends Section {
 
     public ListSection(String... items) {
         this(Arrays.asList(items));
+    }
+
+    public ListSection(ListSection copy) {
+        List<String> list = new ArrayList<>();
+        for (String item : copy.items) {
+            if (item != null) {
+                list.add(new String(item.toCharArray()));
+            } else list.add(null);
+        }
+        this.items = list;
     }
 
     public List<String> getItems() {

@@ -16,6 +16,15 @@ public class Link {
         this.url = url;
     }
 
+    public Link(Link copy) {
+        this.name = String.valueOf(copy.getName().toCharArray());
+        if (copy.getUrl() != null) {
+            this.url = String.valueOf(copy.getUrl().toCharArray());
+        } else {
+            this.url = copy.getUrl();
+        }
+    }
+
     public String getName() {
         return name;
     }

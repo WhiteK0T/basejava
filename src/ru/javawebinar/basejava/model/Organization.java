@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,17 @@ public class Organization {
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
+    }
+
+    public Organization(Organization copy) {
+        List<Position> list = new ArrayList<>();
+        for (Position item : copy.positions) {
+            if (item != null) {
+                list.add(new Position(item));
+            } list.add(null);
+        }
+        this.positions = list;
+        this.homePage = new Link(copy.getHomePage());
     }
 
     public Link getHomePage() {
@@ -82,6 +94,17 @@ public class Organization {
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        public Position(Position copy) {
+            this.startDate = LocalDate.from(copy.getStartDate());
+            this.endDate = LocalDate.from(copy.getEndDate());
+            this.title = String.valueOf(copy.getTitle().toCharArray());
+            if (copy.getDescription() != null) {
+                this.description = String.valueOf(copy.getDescription().toCharArray());
+            } else {
+                this.description = copy.getDescription();
+            }
         }
 
         public LocalDate getStartDate() {

@@ -29,6 +29,27 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
+    public Resume(Resume copy) {
+        this(copy.uuid, copy.fullName);
+        for (Map.Entry<ContactType, String> contactTypeStringEntry : copy.getContacts().entrySet()) {
+            this.contacts.put(contactTypeStringEntry.getKey(), contactTypeStringEntry.getValue() != null ?
+                    String.valueOf(contactTypeStringEntry.getValue().toCharArray()) : null);
+        }
+        for (Map.Entry<SectionType, Section> sectionTypeSectionEntry : copy.getSections().entrySet()) {
+            Section value = sectionTypeSectionEntry.getValue();
+            if (value == null) {
+                continue;
+            }
+            if (value instanceof TextSection textSection) {
+                sections.put(sectionTypeSectionEntry.getKey(), new TextSection(textSection));
+            } else if (value instanceof ListSection listSection) {
+                sections.put(sectionTypeSectionEntry.getKey(), new ListSection(listSection));
+            } else if (value instanceof OrganizationSection organizationSection) {
+                sections.put(sectionTypeSectionEntry.getKey(), new OrganizationSection(organizationSection));
+            }
+        }
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -39,6 +60,22 @@ public class Resume implements Comparable<Resume> {
 
     public Section getSection(SectionType type) {
         return sections.get(type);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType sectionType, Section section) {
+        sections.put(sectionType, section);
     }
 
     @Override
@@ -69,13 +106,5 @@ public class Resume implements Comparable<Resume> {
     public int compareTo(Resume o) {
         int cmp = fullName.compareTo(o.fullName);
         return cmp != 0 ? cmp : uuid.compareTo(o.uuid);
-    }
-
-    public void addContact(ContactType type, String value) {
-        contacts.put(type, value);
-    }
-
-    public void addSection(SectionType sectionType, Section section) {
-        sections.put(sectionType, section);
     }
 }

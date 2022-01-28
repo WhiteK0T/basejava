@@ -10,6 +10,10 @@ public class TextSection extends Section {
         this.content = content;
     }
 
+    public TextSection(TextSection copy) {
+        this.content = new String(copy.getContent().toCharArray());
+    }
+
     public String getContent() {
         return content;
     }
