@@ -1,4 +1,10 @@
 package ru.javawebinar.basejava.model;
 
-abstract public class Section {
+import java.io.Serializable;
+
+/**
+ * gkislin
+ * 19.07.2016
+ */
+abstract public class Section implements Serializable {
 }
