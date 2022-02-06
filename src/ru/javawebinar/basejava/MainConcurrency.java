@@ -58,6 +58,10 @@ public class MainConcurrency {
             }
         });
         System.out.println(mainConcurrency.counter);
+        Integer lock1 = 1233;
+        Integer lock2 = 12432;
+        deadLock(lock1, lock2);
+        deadLock(lock2, lock1);
     }
 
     private synchronized void inc() {
@@ -68,5 +72,21 @@ public class MainConcurrency {
 //                readFile
 //                ...
 //        }
+    }
+
+    private static void deadLock(Integer lock1, Integer lock2) {
+        new Thread(() -> {
+            synchronized (lock1) {
+                System.out.println(Thread.currentThread().getName() + " lock" + lock1);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (lock2) {
+                    System.out.println(Thread.currentThread().getName() + " lock" + lock2);
+                }
+            }
+        }).start();
     }
 }
